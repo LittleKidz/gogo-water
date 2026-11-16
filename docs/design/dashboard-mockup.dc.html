@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>GoGo Water Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B1220}
+a{color:#7DD3FC}a:hover{color:#BAE6FD}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0B1220; color: #E6EDF7; font-family: 'IBM Plex Sans Thai', system-ui, sans-serif; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<nav aria-label="เมนูหลัก" style="flex: 1 1 72px; max-width: 88px; min-width: 72px; background: #0E1729; border-right: 1px solid #1C2944; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 0">
+<a href="#overview" aria-label="ภาพรวม" style="width: 48px; height: 48px; border-radius: 12px; background: #13325A; color: #7DD3FC; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></a>
+<a href="#nodes" aria-label="อุปกรณ์" style="width: 48px; height: 48px; border-radius: 12px; color: #8FA3BF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"></rect><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"></path></svg></a>
+<a href="#history" aria-label="ประวัติ" style="width: 48px; height: 48px; border-radius: 12px; color: #8FA3BF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 15l4-4 3 3 5-6"></path></svg></a>
+<a href="#events" aria-label="การแจ้งเตือน" style="width: 48px; height: 48px; border-radius: 12px; color: #8FA3BF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21h4"></path></svg></a>
+<a href="#metrics" aria-label="ประสิทธิภาพระบบ" style="width: 48px; height: 48px; border-radius: 12px; color: #8FA3BF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></a>
+</nav>
+
+<main id="overview" style="flex: 999 1 560px; min-width: 0; padding: 24px 28px 40px; box-sizing: border-box">
+<div style="max-width: 1360px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<div style="display: flex; align-items: center; gap: 16px">
+<img src="/_blob/5d64003263b2417b539cc1c2a13d10f2" alt="โลโก้ GoGo Water" style="width: 148px; height: 80px; object-fit: cover; border-radius: 14px; border: 1px solid #1C2944">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif; font-size: 28px; font-weight: 600; letter-spacing: 0.2px">GoGo Water</h1>
+<p style="margin: 0; font-size: 15px; color: #8FA3BF">ถังน้ำดื่มอัจฉริยะ · [ชื่อจุดติดตั้ง]</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: #0F2A24; color: #6EE7B7; font-size: 14px; font-weight: 500"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #34D399"></span>Live</span>
+<span style="font-size: 14px; color: #8FA3BF">อัปเดตล่าสุด 14:56:02</span>
+</div>
+</header>
+
+<section aria-label="สถานะล่าสุด" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+
+<div style="background: #0F2A24; border: 1px solid #1E5A47; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 14px; color: #A7F3D0">สถานะน้ำ</span><span style="font-size: 12px; color: #A7F3D0; border: 1px solid #1E5A47; border-radius: 999px; padding: 2px 10px">ตามเกณฑ์</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.5 2.5L16 9.5"></path></svg><span style="font-size: 30px; font-weight: 600; color: #6EE7B7">ปลอดภัย</span></div>
+<p style="margin: 0; font-size: 14px; color: #A7F3D0">TDS ต่ำกว่าเกณฑ์ 1000 ppm · ผล AI จะแสดงหลังเชื่อม LLM</p>
+</div>
+
+<div style="background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 14px; color: #8FA3BF">TDS · Node1</span><span style="font-size: 12px; color: #7DD3FC; background: #13325A; border-radius: 999px; padding: 2px 10px">สด</span></div>
+<div style="display: flex; align-items: baseline; gap: 6px"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 600">142</span><span style="font-size: 15px; color: #8FA3BF">ppm</span></div>
+<svg role="img" aria-label="แนวโน้ม TDS 1 ชั่วโมงล่าสุด" width="100%" height="48" viewBox="0 0 200 48" preserveAspectRatio="none"><path d="{{sparkArea}}" fill="#38BDF8" fill-opacity="0.15"></path><path d="{{sparkLine}}" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linejoin="round"></path></svg>
+<span style="font-size: 13px; color: #8FA3BF">เกณฑ์กรมอนามัย ≤ 1000 ppm</span>
+</div>
+
+<div style="background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 14px; color: #8FA3BF">ความขุ่น · Node1</span><span style="font-size: 12px; color: #CBD5E1; background: #1C2944; border-radius: 999px; padding: 2px 10px">รอเชื่อม</span></div>
+<div style="display: flex; align-items: baseline; gap: 6px"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 600; color: #8FA3BF">—</span><span style="font-size: 15px; color: #8FA3BF">NTU</span></div>
+<div style="height: 8px; border-radius: 999px; background: #1C2944; margin-top: 16px"></div>
+<span style="font-size: 13px; color: #8FA3BF; margin-top: 10px">เกณฑ์ ≤ 5 NTU (ค่าสัมพัทธ์เทียบน้ำใส)</span>
+</div>
+
+<div style="background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 14px; color: #8FA3BF">อุณหภูมิน้ำ · Gateway</span><span style="font-size: 12px; color: #CBD5E1; background: #1C2944; border-radius: 999px; padding: 2px 10px">รอเชื่อม</span></div>
+<div style="display: flex; align-items: baseline; gap: 6px"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 600; color: #8FA3BF">—</span><span style="font-size: 15px; color: #8FA3BF">°C</span></div>
+<div style="height: 8px; border-radius: 999px; background: #1C2944; margin-top: 16px"></div>
+<span style="font-size: 13px; color: #8FA3BF; margin-top: 10px">DS18B20 · ใช้ชดเชยค่า TDS</span>
+</div>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px">
+<div id="history" style="flex: 999 1 560px; min-width: 0; background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">TDS ย้อนหลัง</h2>
+<div role="group" aria-label="ช่วงเวลา" style="display: flex; gap: 6px; background: #0B1220; border: 1px solid #1C2944; border-radius: 10px; padding: 4px">
+<sc-for list="{{ranges}}" as="r" hint-placeholder-count="3"><button type="button" onClick="{{ r.pick }}" style="{{ r.style }}">{{ r.label }}</button></sc-for>
+</div>
+</div>
+<div style="display: flex; gap: 10px">
+<div style="display: flex; flex-direction: column; justify-content: space-between; font-size: 12px; color: #8FA3BF; padding: 0 0 22px; text-align: right; min-width: 38px"><span>1000</span><span>750</span><span>500</span><span>250</span><span>0</span></div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<svg role="img" aria-label="กราฟ TDS ย้อนหลัง พร้อมเส้นเกณฑ์ 1000 ppm" width="100%" height="240" viewBox="0 0 760 240" preserveAspectRatio="none">
+<line x1="0" y1="60" x2="760" y2="60" stroke="#1C2944" stroke-width="1"></line>
+<line x1="0" y1="120" x2="760" y2="120" stroke="#1C2944" stroke-width="1"></line>
+<line x1="0" y1="180" x2="760" y2="180" stroke="#1C2944" stroke-width="1"></line>
+<line x1="0" y1="1" x2="760" y2="1" stroke="#F87171" stroke-width="1.5" stroke-dasharray="6 6"></line>
+<path d="{{chartArea}}" fill="#3B82F6" fill-opacity="0.22"></path>
+<path d="{{chartLine}}" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linejoin="round"></path>
+</svg>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #8FA3BF"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>ตอนนี้</span></div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: #8FA3BF">
+<span style="display: inline-flex; align-items: center; gap: 8px"><span aria-hidden="true" style="width: 18px; height: 3px; background: #38BDF8; border-radius: 2px"></span>TDS (ppm)</span>
+<span style="display: inline-flex; align-items: center; gap: 8px"><span aria-hidden="true" style="width: 18px; border-top: 2px dashed #F87171"></span>เกณฑ์ 1000 ppm</span>
+<span>ข้อมูลตัวอย่าง</span>
+</div>
+</div>
+
+<div id="nodes" style="flex: 1 1 320px; min-width: 0; background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">อุปกรณ์</h2>
+<sc-for list="{{nodes}}" as="n" hint-placeholder-count="3">
+<div style="background: #0B1220; border: 1px solid #1C2944; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<div style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">{{ n.name }}</span><span style="font-size: 12px; color: #8FA3BF">{{ n.board }}</span></div>
+<span style="{{ n.badgeStyle }}"><span aria-hidden="true" style="{{ n.dotStyle }}"></span>{{ n.status }}</span>
+</div>
+<span style="font-size: 13px; color: #CBD5E1">{{ n.sensors }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: #8FA3BF"><span>เห็นล่าสุด {{ n.lastSeen }}</span><span>RSSI {{ n.rssi }}</span><span>PDR {{ n.pdr }}</span></div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px">
+<div id="events" style="flex: 2 1 420px; min-width: 0; background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">เหตุการณ์ล่าสุด</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{events}}" as="e" hint-placeholder-count="5">
+<li style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1C2944">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #8FA3BF; min-width: 44px; padding-top: 1px">{{ e.time }}</span>
+<span aria-hidden="true" style="{{ e.dotStyle }}"></span>
+<span style="font-size: 14px; color: #E6EDF7">{{ e.text }}</span>
+</li>
+</sc-for>
+</ol>
+</div>
+
+<div style="flex: 1 1 280px; min-width: 0; background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 18px; font-weight: 600">ฝาถัง · แสง</h2><span style="font-size: 12px; color: #CBD5E1; background: #1C2944; border-radius: 999px; padding: 2px 10px">Node2 · รอเชื่อม</span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="background: #0B1220; border: 1px solid #1C2944; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #8FA3BF">ฝาถัง</span><span style="font-size: 20px; font-weight: 600; color: #8FA3BF">—</span></div>
+<div style="background: #0B1220; border: 1px solid #1C2944; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #8FA3BF">แสง</span><span style="font-size: 20px; font-weight: 600; color: #8FA3BF">— lux</span></div>
+<div style="background: #0B1220; border: 1px solid #1C2944; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #8FA3BF">อายุน้ำ</span><span style="font-size: 20px; font-weight: 600; color: #8FA3BF">— ชม.</span></div>
+<div style="background: #0B1220; border: 1px solid #1C2944; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #8FA3BF">แสงสะสม</span><span style="font-size: 20px; font-weight: 600; color: #8FA3BF">— lux·ชม.</span></div>
+</div>
+</div>
+
+<div id="metrics" style="flex: 1 1 280px; min-width: 0; background: #111A2E; border: 1px solid #1C2944; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">ประสิทธิภาพระบบ</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{metrics}}" as="m" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+<svg role="img" aria-label="{{ m.aria }}" width="76" height="76" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="#1C2944" stroke-width="6"></circle><circle cx="32" cy="32" r="26" fill="none" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ m.dash }}" transform="rotate(-90 32 32)"></circle><text x="32" y="36" text-anchor="middle" font-size="12" font-weight="600" fill="#E6EDF7">{{ m.value }}</text></svg>
+<span style="font-size: 13px; color: #CBD5E1; text-align: center">{{ m.label }}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #8FA3BF">Latency เฉลี่ย 420 ms (min 310 / max 690) · ข้อมูลตัวอย่าง</span>
+</div>
+</section>
+
+<footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12px; color: #8FA3BF; padding-top: 4px">
+<span>GoGo Water · Embedded System (CEDT) Final Project 2026</span>
+<span>ระบบคัดกรองเบื้องต้น ไม่ใช่การตรวจทางห้องแล็บ</span>
+</footer>
+
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { range: '24h' }; }
+  renderVals() {
+    var series = [168,165,160,158,152,150,149,147,146,145,144,143,150,155,620,640,410,230,180,160,151,146,143,142];
+    var W = 760, H = 240, maxV = 1000;
+    var pts = series.map(function (v, i) { return [i * W / (series.length - 1), H - (v / maxV) * H]; });
+    var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    var area = line + ' L' + W + ' ' + H + ' L0 ' + H + ' Z';
+
+    var spark = series.slice(-12), sMax = 200, sMin = 120;
+    var sp = spark.map(function (v, i) { return [i * 200 / (spark.length - 1), 46 - ((Math.min(v, sMax) - sMin) / (sMax - sMin)) * 42]; });
+    var sLine = sp.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+
+    var self = this;
+    var ranges = ['1h', '24h', '7d'].map(function (k) {
+      var on = self.state.range === k;
+      return {
+        label: k === '1h' ? '1 ชม.' : (k === '24h' ? '24 ชม.' : '7 วัน'),
+        pick: function () { self.setState({ range: k }); },
+        style: 'min-height: 36px; padding: 0 14px; border: 0; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer; ' + (on ? 'background: #13325A; color: #7DD3FC' : 'background: transparent; color: #8FA3BF')
+      };
+    });
+
+    function badge(kind) {
+      var c = kind === 'online' ? ['#0F2A24', '#6EE7B7', '#34D399', 'ออนไลน์'] : ['#1C2944', '#CBD5E1', '#8FA3BF', 'ยังไม่เชื่อม'];
+      return {
+        status: c[3],
+        badgeStyle: 'display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; background: ' + c[0] + '; color: ' + c[1],
+        dotStyle: 'width: 7px; height: 7px; border-radius: 50%; background: ' + c[2]
+      };
+    }
+    var nodes = [
+      Object.assign({ name: 'Node1', board: 'ESP32 DevKit V1', sensors: 'TDS · ความขุ่น', lastSeen: '2 วิ', rssi: '−48 dBm', pdr: '99.6%' }, badge('online')),
+      Object.assign({ name: 'Gateway', board: 'ESP32-S3', sensors: 'อุณหภูมิน้ำ · Ultrasonic · Servo', lastSeen: '1 วิ', rssi: '−61 dBm (WiFi)', pdr: '—' }, badge('online')),
+      Object.assign({ name: 'Node2', board: 'ESP32', sensors: 'แสง (BH1750) · ฝาถัง (Hall)', lastSeen: '—', rssi: '—', pdr: '—' }, badge('offline'))
+    ];
+
+    function ev(time, text, color) {
+      return { time: time, text: text, dotStyle: 'width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; flex: none; background: ' + color };
+    }
+    var events = [
+      ev('14:56', 'Node1 ส่งค่า TDS 142 ppm', '#38BDF8'),
+      ev('14:20', 'Gateway เชื่อม WiFi สำเร็จ', '#34D399'),
+      ev('14:05', 'ทดสอบเติมเกลือ · TDS ขึ้นถึง 640 ppm', '#FBBF24'),
+      ev('13:58', 'Node1 เริ่มส่งข้อมูลทาง ESP-NOW', '#34D399'),
+      ev('13:40', 'Node2 ยังไม่เชื่อมต่อ', '#8FA3BF')
+    ];
+
+    var C = 2 * Math.PI * 26;
+    function ring(label, value, pct, aria) { return { label: label, value: value, aria: aria, dash: (pct * C).toFixed(1) + ' ' + C.toFixed(1) }; }
+    var metrics = [
+      ring('Packet delivery', '99.6%', 0.996, 'Packet delivery 99.6 เปอร์เซ็นต์'),
+      ring('Uptime 24 ชม.', '98%', 0.98, 'Uptime 98 เปอร์เซ็นต์'),
+      ring('AI accuracy', '—', 0, 'AI accuracy ยังไม่มีข้อมูล')
+    ];
+
+    return {
+      chartLine: line, chartArea: area,
+      sparkLine: sLine, sparkArea: sLine + ' L200 48 L0 48 Z',
+      ranges: ranges, nodes: nodes, events: events, metrics: metrics
+    };
+  }
+}
+</script>
+</body>
+</html>

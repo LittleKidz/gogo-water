@@ -1,0 +1,12 @@
+# Secrets — never commit (Security rule 4)
+.env*
+!.env.example
+firmware/**/secrets.h
+
+# Node / Next.js
+node_modules/
+.next/
+.vercel/
+
+# OS / editor
+.DS_Store

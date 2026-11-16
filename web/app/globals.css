@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* GoGo Water theme — values from CLAUDE.md → Dashboard design */
+@theme {
+  --color-bg: #0b1220;
+  --color-sidebar: #0e1729;
+  --color-card: #111a2e;
+  --color-inner: #0b1220;
+  --color-line: #1c2944;
+
+  --color-ink: #e6edf7;
+  --color-muted: #8fa3bf;
+  --color-soft: #cbd5e1;
+
+  --color-accent: #38bdf8;
+  --color-blue: #3b82f6;
+  --color-pill: #13325a;
+  --color-pill-ink: #7dd3fc;
+
+  --color-safe: #34d399;
+  --color-safe-ink: #6ee7b7;
+  --color-safe-soft: #a7f3d0;
+  --color-safe-bg: #0f2a24;
+  --color-safe-line: #1e5a47;
+
+  --color-warn: #fbbf24;
+  --color-warn-ink: #fde68a;
+  --color-warn-bg: #2a230f;
+  --color-warn-line: #5a4a1e;
+
+  --color-danger: #f87171;
+  --color-danger-ink: #fecaca;
+  --color-danger-bg: #2a1215;
+  --color-danger-line: #5a1e24;
+
+  --font-sans: var(--font-plex-thai), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-plex-thai), sans-serif;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+a {
+  color: var(--color-pill-ink);
+}
