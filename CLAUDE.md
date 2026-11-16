@@ -39,9 +39,10 @@ Node2 (ESP32) BH1750 + Hall               servo, OLED later)                    
 firmware/                 Arduino sketches (Arduino-ESP32 core 3.x)
   Node1_TDS_Test/           TDS read test
   Gateway_MAC/              print MAC
-  Node1_ESPNOW_Sender/      Node1: read TDS → ESP-NOW (put Gateway MAC in GATEWAY_MAC)
-  Gateway_ESPNOW_Receiver/  Gateway: receive ESP-NOW, print + PDR
-  secrets.example.h         copy to secrets.h (git-ignored)
+  Node1_ESPNOW_Sender/      Node1: read TDS → ESP-NOW; scans WIFI_SSID for the hotspot channel (GATEWAY_MAC set in .ino)
+  Gateway_ESPNOW_Receiver/  Gateway: join hotspot, ESP-NOW recv → FreeRTOS queue → HTTPS POST /api/ingest (+ PDR stats)
+    ca_cert.h                 public root CAs for HTTPS verification (GTS Root R1 + ISRG Root X1)
+  secrets.example.h         copy to secrets.h in EACH sketch folder (git-ignored): Gateway uses all 4 values, Node1 only WIFI_SSID
 web/                      Next.js app (API + dashboard) → deployed on Vercel (Root Directory = web)
 ```
 
@@ -114,8 +115,9 @@ Responses: `200 {ok:true, inserted:n}` · `401` bad/missing token · `400` inval
 - Checkpoint needs only: header, TDS card, history chart, Node1/Gateway status, live updates. Everything else may show "รอเชื่อม".
 
 ## Next tasks for Claude Code
-1. Scaffold Next.js (App Router, TypeScript) in `web/`; add `@supabase/supabase-js`.
-2. `web/app/api/ingest/route.ts` — token check, validate, insert with secret key. Test with curl locally and on Vercel.
-3. `web/app/page.tsx` — dashboard: latest TDS card, node status (last seen), chart of recent readings, realtime updates.
-4. Push → link repo to Vercel (Root Directory `web`), set env vars, deploy.
-5. Firmware: Gateway joins hotspot + POSTs each received NodeMsg; Node1 scans for the hotspot SSID to use its channel.
+Done: Next.js scaffold, `/api/ingest`, dashboard, Vercel deploy (+ auto-deploy on push), firmware commit (a) `92c1520`.
+
+1. Test commit (a) on the boards until readings show on https://gogo-water.vercel.app (user debugs with Serial logs/screenshots).
+2. Commit (b) — ESP-NOW security: HMAC-SHA256 (truncated 8 bytes, key in secrets.h) + `boot_id` + replay rejection on (boot_id, seq) + MAC whitelist; update the message format section above.
+3. Checkpoint video (≤ 2 min) by Fri 20 Nov 2026.
+4. Store-and-forward on the Gateway: keep/retry batches when POST fails (API already accepts arrays).
