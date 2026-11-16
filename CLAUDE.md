@@ -27,11 +27,12 @@ Node2 (ESP32) BH1750 + Hall               servo, OLED later)                    
 
 ## Status (16 Nov 2026)
 - ✅ Node1 reads TDS on **D34** (ADC1). ADC floor measured: D34 tied to GND still reads ~142 mV → values < 160 mV reported as 0 ppm.
-- ✅ ESP-NOW Node1 → Gateway works (both fixed on **channel 1**, Gateway not on WiFi yet).
+- ✅ ESP-NOW Node1 → Gateway works (tested on fixed channel 1, before WiFi).
 - ✅ Supabase project + `readings` table created (see below).
-- ⬜ Vercel API `/api/ingest` + dashboard  ← **next**
-- ⬜ Gateway joins phone hotspot + HTTPS POST
-- ⬜ Node1 must switch to the hotspot's WiFi channel (ESP-NOW uses the channel of the WiFi the Gateway is connected to)
+- ✅ Vercel API `/api/ingest` + dashboard deployed: https://gogo-water.vercel.app (auto-deploy on push to `main`; 401 without token verified).
+- 🟨 Gateway joins phone hotspot + HTTPS POST (CA-verified: GTS Root R1 + ISRG Root X1 in `ca_cert.h`), recv callback → FreeRTOS queue — code done, compiles; **needs test on boards**.
+- 🟨 Node1 scans for the hotspot SSID and uses its channel for ESP-NOW (rescans after 5 failed sends) — code done; **needs test on boards**.
+- ⬜ ESP-NOW security (HMAC + boot_id + replay + MAC whitelist) — separate commit after the above works.
 
 ## Repo layout
 ```

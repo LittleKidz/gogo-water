@@ -2,17 +2,26 @@
 // Wiring: TDS + -> 3V3, TDS - -> GND, TDS A -> D34
 // Board: "DOIT ESP32 DEVKIT V1"  ·  Serial Monitor: 115200 baud
 //
-// >>> STEP: put the Gateway's MAC address below (from the Gateway's Serial Monitor) <<<
+// >>> STEP 1: put the Gateway's MAC address below (from the Gateway's Serial Monitor) <<<
+// >>> STEP 2: copy ../secrets.example.h to THIS folder as secrets.h (Node1 only uses WIFI_SSID) <<<
+//
+// The Gateway is connected to the phone hotspot, so its ESP-NOW runs on the hotspot's channel.
+// Node1 scans for the hotspot SSID to find that channel (it does NOT join the hotspot).
 
 #include <WiFi.h>
 #include <esp_now.h>
 #include <esp_wifi.h>
 
-uint8_t GATEWAY_MAC[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};   // <-- CHANGE ME
+#if !__has_include("secrets.h")
+#error "secrets.h missing: copy firmware/secrets.example.h into this sketch folder as secrets.h"
+#endif
+#include "secrets.h"               // WIFI_SSID (git-ignored)
 
-#define NODE_ID         1
-#define ESPNOW_CHANNEL  1          // must match the Gateway
-#define SEND_EVERY_MS   2000
+uint8_t GATEWAY_MAC[6] = {0x80, 0xB5, 0x4E, 0xC3, 0xF8, 0x00};   // <-- CHANGE ME
+
+#define NODE_ID          1
+#define SEND_EVERY_MS    2000
+#define RESCAN_AFTER_FAILS 5       // N failed sends in a row -> hotspot channel may have changed
 
 // ---- TDS settings (same as Node1_TDS_Test) ----
 const int   TDS_PIN      = 34;
@@ -31,6 +40,7 @@ typedef struct __attribute__((packed)) {
 
 uint32_t seq = 0;
 volatile int lastSendOk = -1;      // -1 = no result yet, 1 = ok, 0 = fail
+int failStreak = 0;
 
 // Send callback — signature changed in Arduino-ESP32 core 3.3 (ESP-IDF 5.5)
 #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 3, 0)
@@ -57,6 +67,33 @@ float voltageToTds(float volts, float tempC) {
   return (133.42 * v * v * v - 255.86 * v * v + 857.39 * v) * 0.5;
 }
 
+// Scan until the hotspot (WIFI_SSID) is found; return its WiFi channel (1..13)
+int findHotspotChannel() {
+  while (true) {
+    Serial.printf("Scanning for hotspot \"%s\" ...\n", WIFI_SSID);
+    int n = WiFi.scanNetworks();
+    int ch = 0, bestRssi = -127;
+    for (int i = 0; i < n; i++) {
+      if (WiFi.SSID(i) == WIFI_SSID && WiFi.RSSI(i) > bestRssi) {
+        bestRssi = WiFi.RSSI(i);
+        ch = WiFi.channel(i);
+      }
+    }
+    WiFi.scanDelete();
+    if (ch > 0) {
+      Serial.printf("Hotspot channel = %d (RSSI %d dBm)\n", ch, bestRssi);
+      return ch;
+    }
+    Serial.println("Hotspot not found (is it on, and 2.4 GHz?) — retry in 3 s");
+    delay(3000);
+  }
+}
+
+void useHotspotChannel() {
+  int ch = findHotspotChannel();
+  esp_wifi_set_channel(ch, WIFI_SECOND_CHAN_NONE);
+}
+
 void setup() {
   Serial.begin(115200);
   delay(500);
@@ -64,7 +101,7 @@ void setup() {
 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
-  esp_wifi_set_channel(ESPNOW_CHANNEL, WIFI_SECOND_CHAN_NONE);
+  useHotspotChannel();             // same channel as the Gateway
 
   if (esp_now_init() != ESP_OK) {
     Serial.println("ESP-NOW init FAILED");
@@ -104,6 +141,14 @@ void loop() {
   Serial.printf("[TX] seq=%lu  TDS=%.1f ppm (%d mV)  -> %s\n",
                 (unsigned long)msg.seq, tds, mv,
                 r != ESP_OK ? "send error" : (lastSendOk == 1 ? "OK" : "FAIL"));
+
+  // Many failures in a row: the hotspot (and so the Gateway) may be on a new channel
+  failStreak = (r == ESP_OK && lastSendOk == 1) ? 0 : failStreak + 1;
+  if (failStreak >= RESCAN_AFTER_FAILS) {
+    Serial.printf("%d failed sends in a row — rescanning hotspot channel\n", failStreak);
+    useHotspotChannel();
+    failStreak = 0;
+  }
 
   delay(SEND_EVERY_MS);
 }
